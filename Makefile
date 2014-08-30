@@ -7,8 +7,8 @@ FIND=find
 %_dats.c: %.dats
 	$(PATSOPT) --output $@ --dynamic $<
 
-%_dats.o: %_dats.c
-	$(CC) -std=c99 -D_XOPEN_SOURCE -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -D_ATS_CCOMP_RUNTIME_NONE -D_ATS_CCOMP_EXCEPTION_NONE -c $(CFLAGS) -o $@ $<
+%_dats.o: %_dats.c include/common.h
+	$(CC) -std=c99 -D_XOPEN_SOURCE -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -I. -c $(CFLAGS) -o $@ $<
 
 .PHONY: all
 all: socket-activate

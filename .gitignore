@@ -1,0 +1,3 @@
+socket-activate
+*.o
+*_dats.c
