@@ -13,7 +13,7 @@ FIND=find
 .PHONY: all
 all: socket-activate
 
-socket-activate: src/socket-activate_dats.o
+socket-activate: dynamic/socket-activate_dats.o
 	$(CC) -L$(PATSHOME)/ccomp/atslib/lib -L$(PATSHOME)/ccomp/atslib/lib64 $(LDFLAGS) $< -o $@
 
 clean:
