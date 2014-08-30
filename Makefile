@@ -2,6 +2,8 @@ PATSHOME=$(wildcard /run/current-system/sw/lib/ats2-postiats-*)
 
 PATSOPT=patsopt
 
+FIND=find
+
 %_dats.c: %.dats
 	$(PATSOPT) --output $@ --dynamic $<
 
@@ -11,9 +13,9 @@ PATSOPT=patsopt
 .PHONY: all
 all: socket-activate
 
-socket-activate: socket-activate_dats.o
+socket-activate: src/socket-activate_dats.o
 	$(CC) -L$(PATSHOME)/ccomp/atslib/lib -L$(PATSHOME)/ccomp/atslib/lib64 $(LDFLAGS) $< -o $@
 
 clean:
-	$(RM) -f *_dats.*
+	$(FIND) . -name '*_dats.*' -print0 | xargs -0 $(RM) -f
 	$(RM) socket-activate
