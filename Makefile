@@ -15,5 +15,5 @@ socket-activate: socket-activate_dats.o
 	$(CC) -L$(PATSHOME)/ccomp/atslib/lib -L$(PATSHOME)/ccomp/atslib/lib64 $(LDFLAGS) $< -o $@
 
 clean:
-	rm -f *_dats.*
-	rm socket-activate
+	$(RM) -f *_dats.*
+	$(RM) socket-activate
