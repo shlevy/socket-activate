@@ -6,7 +6,7 @@ PATSOPT=patsopt
 	$(PATSOPT) --output $@ --dynamic $<
 
 %_dats.o: %_dats.c
-	$(CC) -std=c99 -D_XOPEN_SOURCE -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -c $(CFLAGS) -o $@ $<
+	$(CC) -std=c99 -D_XOPEN_SOURCE -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -D_ATS_CCOMP_RUNTIME_NONE -D_ATS_CCOMP_EXCEPTION_NONE -c $(CFLAGS) -o $@ $<
 
 .PHONY: all
 all: socket-activate
