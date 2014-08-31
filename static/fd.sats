@@ -2,7 +2,7 @@ staload "static/errno.sats"
 
 absview filedes (fd: int)
 
-prfn lemma_filedes_natural {n: int} (pf: !filedes n):<prf>
+prfn lemma_filedes_natural {n: int} (pf: !filedes n):
   [n >= 0] void
 
 (* Even if close fails, we shouldn't consider the fd still open.
