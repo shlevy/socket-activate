@@ -4,8 +4,8 @@ PATSOPT=patsopt
 
 FIND=find
 
-%_dats.c: %.dats
-	$(PATSOPT) --output $@ --dynamic $<
+%_dats.c: %.dats static/fd.sats
+	$(PATSOPT) --output $@ --dynamic $< || ($(RM) -f $@ && exit 1)
 
 %_dats.o: %_dats.c include/common.h
 	$(CC) -std=c99 -D_XOPEN_SOURCE -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -I. -c $(CFLAGS) -o $@ $<
@@ -13,9 +13,11 @@ FIND=find
 .PHONY: all
 all: socket-activate
 
-socket-activate: dynamic/socket-activate_dats.o
-	$(CC) -L$(PATSHOME)/ccomp/atslib/lib -L$(PATSHOME)/ccomp/atslib/lib64 $(LDFLAGS) $< -o $@
+OBJS=dynamic/socket-activate_dats.o dynamic/fd_dats.o
+
+socket-activate: $(OBJS)
+	$(CC) -L$(PATSHOME)/ccomp/atslib/lib -L$(PATSHOME)/ccomp/atslib/lib64 $(LDFLAGS) $(OBJS) -o $@
 
 clean:
 	$(FIND) . -name '*_dats.*' -print0 | xargs -0 $(RM) -f
-	$(RM) socket-activate
+	$(RM) -f socket-activate
