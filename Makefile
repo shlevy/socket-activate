@@ -4,7 +4,7 @@ PATSOPT=patsopt
 
 FIND=find
 
-%_dats.c: %.dats static/fd.sats
+%_dats.c: %.dats static/fd.sats static/errno.sats
 	$(PATSOPT) --output $@ --dynamic $< || ($(RM) -f $@ && exit 1)
 
 %_dats.o: %_dats.c include/common.h
