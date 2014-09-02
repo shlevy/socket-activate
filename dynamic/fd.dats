@@ -1,6 +1,7 @@
 %{^
 #include "include/common.h"
 #include <unistd.h>
+#include <sys/socket.h>
 %}
 
 #include "share/atspre_staload.hats"
@@ -27,3 +28,11 @@ in if res = ~1 then let
   prval e_obl = require_errno_check ()
 in (Some_v e_obl | res) end
 else (None_v () | res) end
+
+implement socket (domain_prf, type_prf | domain, type) = let
+  extern fun unsafe_socket (int, int, int): NatOrError = "ext#socket"
+  val res = unsafe_socket(domain, type, 0)
+in if res = ~1 then (None_v () | res)
+else let
+  prval pf = filedes_impl res
+in (Some_v pf | res) end end

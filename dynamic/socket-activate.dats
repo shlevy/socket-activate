@@ -10,16 +10,17 @@ staload "static/fd.sats"
 staload "static/errno.sats"
 
 implement main () = let
-  prval pf = __assert () where {
-    extern praxi __assert (): filedes 2
-  }
+  val (pf | fd) = socket(AF_UNIX, SOCK_STREAM | ATS_AF_UNIX, ATS_SOCK_STREAM)
+in (if fd >= 0 then let
+  prval Some_v pf = pf
 
-  val (pf | res) = close(pf | 2)
-
-  val ret = (if res = ~1 then let
-    prval Some_v e_obl = pf
-  in get_errno (e_obl | (*none*)) end
-  else let
-    prval None_v () = pf
-  in 0 end) : int
-in ret end
+  val (pf | res) = close(pf | fd)
+in (if res = ~1 then let
+  prval Some_v e_obl = pf
+in get_errno (e_obl | (*none*)) end
+else let
+  prval None_v () = pf
+in 0 end): int end
+else let
+  prval None_v () = pf
+in ~1 end): int end

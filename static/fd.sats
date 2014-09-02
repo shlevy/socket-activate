@@ -1,9 +1,33 @@
+#include "include/socket.hats"
+
 staload "static/errno.sats"
 
 absview filedes (fd: int)
 
 prfn lemma_filedes_natural {n: int} (pf: !filedes n):
   [n >= 0] void
+
+dataprop domain(int) = AF_UNIX (ATS_AF_UNIX)
+
+(* Needs bitwise constraints (https://groups.google.com/forum/?fromgroups=#!topic/ats-lang-users/2WIHuLsWQAs)
+dataprop type_base(int) = SOCK_STREAM (ATS_SOCK_STREAM)
+
+dataprop type_modifier(int) = SOCK_NONBLOCK (ATS_SOCK_NONBLOCK) | SOCK_CLOEXEC (ATS_SOCK_CLOEXEC)
+
+dataprop type(int) =
+  | {t: int} base (t) of (type_base(t))
+  | {t, m: int} or ((t lor m)) of (type(t), type_modifier(m))
+*)
+
+dataprop type(int) = SOCK_STREAM (ATS_SOCK_STREAM)
+
+(* TODO: protocol *)
+
+sortdef nat_or_error = {a: int | a >= ~1}
+typedef NatOrError = [a: nat_or_error] int a
+
+fn socket {d, t: int} (domain d, type t | int d, int t):
+  [fd: nat_or_error] (option_v(filedes fd, fd != ~1) | int fd)
 
 (* Even if close fails, we shouldn't consider the fd still open.
  From close(2) on my system:

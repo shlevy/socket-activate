@@ -4,7 +4,10 @@ PATSOPT=patsopt
 
 FIND=find
 
-%_dats.c: %.dats static/fd.sats static/errno.sats
+%.hats: %.hats.h
+	$(CPP) -P $< -o $@
+
+%_dats.c: %.dats static/fd.sats static/errno.sats include/socket.hats
 	$(PATSOPT) --output $@ --dynamic $< || ($(RM) -f $@ && exit 1)
 
 %_dats.o: %_dats.c include/common.h
@@ -21,3 +24,4 @@ socket-activate: $(OBJS)
 clean:
 	$(FIND) . -name '*_dats.*' -print0 | xargs -0 $(RM) -f
 	$(RM) -f socket-activate
+	$(RM) -f include/socket.hats

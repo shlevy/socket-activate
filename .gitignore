@@ -1,3 +1,4 @@
 socket-activate
 *.o
 *_dats.c
+include/socket.hats
