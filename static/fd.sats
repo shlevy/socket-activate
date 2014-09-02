@@ -1,6 +1,6 @@
 #include "include/socket.hats"
 
-staload "static/errno.sats"
+staload "static/error.sats"
 
 absview filedes (fd: int)
 
@@ -41,4 +41,4 @@ fn socket {d, t: int} (domain d, type t | int d, int t):
  > thread to be closed
 *)
 fn close {fd: nat} (filedes fd | int fd):
-  [res: int] (option_v(errno_obligation, res == ~1) | int res)
+  [res: int] (option_v(error_obligation, res == ~1) | int res)

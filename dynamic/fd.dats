@@ -9,7 +9,7 @@
 #define ATS_DYNLOADFLAG 0
 
 staload "static/fd.sats"
-staload "static/errno.sats"
+staload "static/error.sats"
 
 dataview filedes_impl (int) = {n: nat} filedes_impl(n) of (int n)
 
@@ -25,7 +25,7 @@ implement close (prf | fd) = let
   val res = unsafe_close(fd)
   prval filedes_impl fd = prf
 in if res = ~1 then let
-  prval e_obl = require_errno_check ()
+  prval e_obl = impose_error_obligation ()
 in (Some_v e_obl | res) end
 else (None_v () | res) end
 

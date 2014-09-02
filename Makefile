@@ -7,7 +7,7 @@ FIND=find
 %.hats: %.hats.h
 	$(CPP) -P $< -o $@
 
-%_dats.c: %.dats static/fd.sats static/errno.sats include/socket.hats
+%_dats.c: %.dats static/fd.sats static/error.sats include/socket.hats
 	$(PATSOPT) --output $@ --dynamic $< || ($(RM) -f $@ && exit 1)
 
 %_dats.o: %_dats.c include/common.h
@@ -16,7 +16,7 @@ FIND=find
 .PHONY: all
 all: socket-activate
 
-OBJS=dynamic/socket-activate_dats.o dynamic/fd_dats.o dynamic/errno_dats.o
+OBJS=dynamic/socket-activate_dats.o dynamic/fd_dats.o dynamic/error_dats.o
 
 socket-activate: $(OBJS)
 	$(CC) -L$(PATSHOME)/ccomp/atslib/lib -L$(PATSHOME)/ccomp/atslib/lib64 $(LDFLAGS) $(OBJS) -o $@
