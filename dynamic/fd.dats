@@ -29,7 +29,7 @@ in if res = ~1 then let
 in (Some_v e_obl | res) end
 else (None_v () | res) end
 
-implement socket (domain_prf, type_prf | domain, type) = let
+implement socket (domain, type) = let
   extern fun unsafe_socket (int, int, int): NatOrError = "ext#socket"
   val res = unsafe_socket(domain, type, 0)
 in if res = ~1 then (None_v () | res)

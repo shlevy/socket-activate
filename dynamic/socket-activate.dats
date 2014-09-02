@@ -12,7 +12,7 @@ staload "static/error.sats"
 implement main () = let
   extern fn perror(string_type): void = "mac#perror"
 
-  val (pf | fd) = socket(AF_UNIX, SOCK_STREAM | ATS_AF_UNIX, ATS_SOCK_STREAM)
+  val (pf | fd) = socket(ATS_AF_UNIX, ATS_SOCK_STREAM)
 in (if fd >= 0 then let
   prval Some_v pf = pf
 
